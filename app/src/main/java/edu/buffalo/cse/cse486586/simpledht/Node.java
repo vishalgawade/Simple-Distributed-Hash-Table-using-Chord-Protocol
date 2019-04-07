@@ -4,11 +4,15 @@ import android.util.Log;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.Arrays;
 import java.util.Formatter;
+import java.util.HashSet;
+import java.util.Set;
 
 public class Node {
     private String id;
-
+    static String [] portList = {"11108","11112","11116","11120","11124"};
+    static Set<String> remotePort=new HashSet<String>(Arrays.asList(portList));
     public void setSuccessor(String successor) {
         this.successor = successor;
     }
@@ -17,11 +21,11 @@ public class Node {
         this.predecessor = predecessor;
     }
 
-    private Integer port;
+    private String port;
     private String successor;
     private String predecessor;
 
-    public Node(Integer port, String successor, String predecessor) {
+    public Node(String port, String successor, String predecessor) {
         this.id = getNodeHash(port);
         this.port = port;
         this.successor = successor;
@@ -39,7 +43,7 @@ public class Node {
         return id;
     }
 
-    public Integer getPort() {
+    public String getPort() {
         return port;
     }
 
@@ -51,15 +55,17 @@ public class Node {
         return predecessor;
     }
 
-    public String getNodeHash(Integer port){
+    public String getNodeHash(String port){
         try {
-            return genHash(port.toString());
+            if(remotePort.contains(port)){
+                Integer temp=Integer.parseInt(port)/2;
+                return genHash(temp.toString());
+            }
+            return genHash(port);
         } catch (NoSuchAlgorithmException e) {
             Log.e("Node Hash","Unable to get node Hash");
         }
-        finally {
-            return null;
-        }
+        return null;
     }
 
     private String genHash(String input) throws NoSuchAlgorithmException {
@@ -70,5 +76,13 @@ public class Node {
             formatter.format("%02x", b);
         }
         return formatter.toString();
+    }
+
+    public String getPredecessorHash(){
+        return getNodeHash(predecessor);
+    }
+
+    public String getSuccessorHash(){
+        return getNodeHash(successor);
     }
 }
