@@ -43,7 +43,6 @@ public class SimpleDhtProvider extends ContentProvider {
     private Map<String,String> allNodesInRing=new TreeMap<String,String>();
     private static final String KEY_FIELD = "key";
     private static final String VALUE_FIELD = "value";
-    private Map<String,String> map=new HashMap<String,String>();
 
     @Override
     public int delete(Uri uri, String selection, String[] selectionArgs) {
@@ -113,7 +112,6 @@ public class SimpleDhtProvider extends ContentProvider {
                 if(isRightNode(key)){
                     outputStream = getContext().getApplicationContext().openFileOutput(key, Context.MODE_PRIVATE);
                     outputStream.write(value.getBytes());
-                    map.put(key,value);
                     Log.v("inserted key at", values.toString());
                 }
                 //forward request to successor of current node
