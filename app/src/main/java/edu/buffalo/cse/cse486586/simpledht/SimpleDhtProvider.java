@@ -15,7 +15,6 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
 import java.util.Formatter;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
@@ -568,18 +567,6 @@ public class SimpleDhtProvider extends ContentProvider {
                         String [] args=new String []{msgSplit[2]};
                         delete(mUri, msgSplit[1], args);
                     }
-                    /*else if(msgSplit[0].equals("GETKEYSFORWARD")){
-                        Cursor resultCursor = query(mUri, null, msg.split(":")[1], null, null);
-                        ackMsg = ackMsg + "::" + getKeyValFromCursor((MatrixCursor)resultCursor);
-                        Log.i("Server", ackMsg);
-                        ackSend.println(ackMsg);
-                    } else if(msg.contains("DELETE")){
-                        String [] split=msg.split(";")
-                        int count = delete(mUri, split[1], null);
-                        ackMsg = ackMsg + "::" + String.valueOf(count);
-                        Log.i("Server", ackMsg);
-                        ackSend.println(ackMsg);
-                    }*/
                 }
                 catch (IOException e) {
                     e.printStackTrace();
